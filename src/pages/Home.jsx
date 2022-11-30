@@ -19,9 +19,16 @@ function Home({ socket }) {
     socket.emit("join_room", packet);
     navigate("/chat")
   };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <div>
-      <InputGroup className="mb-3">
+      <InputGroup className="mb-3" onKeyDown={handleKeyDown}>
         <Form.Control
           placeholder="Username"
           aria-label="Username"

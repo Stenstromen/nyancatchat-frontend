@@ -6,16 +6,19 @@ import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Sidebar from "../components/chat/Sidebar";
 import Body from "../components/chat/Body";
 import Input from "../components/chat/Input";
 import { useDefaultProvider } from "../contexts/default";
 
 function Chat({ socket }) {
-  //const socket = socketIO.connect("http://localhost:8080");
   const { username } = useDefaultProvider();
-  /* const [message, setMessage] = useState(""); */
   const [recvMessages, setRecvMessages] = useState([]);
+  const [roomUsers, setRoomUsers] = useState([]);
+  const colwidth = 3;
 
   useEffect(() => {
     socket.on("chat message", (msg) => {
@@ -24,11 +27,38 @@ function Chat({ socket }) {
     });
   }, [socket]);
 
+  useEffect(() => {
+    socket.on(
+      "user join",
+      (msg) => {
+        console.log(msg);
+        return setRoomUsers((roomUsers) => [...roomUsers, msg]);
+      },
+      [socket]
+    );
+  });
+
   return (
     <div>
-      <Sidebar socket={socket} />
-      <Body recvMessages={recvMessages} />
-      <Input socket={socket} />
+      <Container fluid>
+        <Row>
+          <Col
+            sm={colwidth}
+            md={colwidth}
+            lg={colwidth}
+            xl={colwidth}
+            xs={colwidth}
+            xxl={colwidth}
+            style={{ border: "1px solid black" }}
+          >
+            <Sidebar socket={socket} roomUsers={roomUsers} />
+          </Col>
+          <Col>
+            <Body recvMessages={recvMessages} />
+            <Input socket={socket} />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
