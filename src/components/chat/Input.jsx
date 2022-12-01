@@ -42,7 +42,7 @@ function Input({ socket }) {
           onKeyDown={handleKeyDown}
           style={{
             display: "flex",
-            position: "fixed",
+            /* position: "fixed", */
             bottom: 0,
             /* left: 0, */
             right: 0,

@@ -57,7 +57,7 @@ function Body({ socket, recvMessages }) {
                       overflowWrap: "break-word",
                     }}
                   >
-                    <em>{item.user}</em>
+                    <em style={{fontSize: "smaller"}}>{item.user}</em>
                     <ListGroup.Item as="li" variant="dark">
                       {item.message}
                     </ListGroup.Item>
