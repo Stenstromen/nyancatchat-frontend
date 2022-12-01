@@ -32,7 +32,7 @@ function Sidebar({ socket, roomUsers }) {
         {roomUsers.map((item) => {
           return (
             <>
-            <p>{item.message}</p>
+            <p>{item.user}</p>
             </>
           )
         })}

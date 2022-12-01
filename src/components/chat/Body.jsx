@@ -10,7 +10,7 @@ import { useDefaultProvider } from "../../contexts/default";
 
 function Body({ socket, recvMessages }) {
   useEffect(() => {
-    console.log(recvMessages);
+    //console.log(recvMessages);
     return window.scrollTo(0, document.body.scrollHeight);
   }, [recvMessages]);
 

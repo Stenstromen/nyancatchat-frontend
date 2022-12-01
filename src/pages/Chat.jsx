@@ -22,21 +22,19 @@ function Chat({ socket }) {
 
   useEffect(() => {
     socket.on("chat message", (msg) => {
-      console.log(msg);
+      //console.log(msg);
       return setRecvMessages((recvMessages) => [...recvMessages, msg]);
     });
   }, [socket]);
 
   useEffect(() => {
-    socket.on(
-      "user join",
-      (msg) => {
-        console.log(msg);
-        return setRoomUsers((roomUsers) => [...roomUsers, msg]);
-      },
-      [socket]
-    );
-  });
+    socket.on("user join", (msg) => {
+      console.log("blah");
+      console.log(msg);
+      console.log(roomUsers)
+      return setRoomUsers(msg);
+    });
+  }, [socket]);
 
   return (
     <div>
@@ -54,8 +52,14 @@ function Chat({ socket }) {
             <Sidebar socket={socket} roomUsers={roomUsers} />
           </Col>
           <Col>
-            <Body recvMessages={recvMessages} />
-            <Input socket={socket} />
+            <Row>
+              <div style={{ marginBottom: "12%" }}>
+                <Body recvMessages={recvMessages} />
+              </div>
+            </Row>
+            <Row>
+              <Input socket={socket} />
+            </Row>
           </Col>
         </Row>
       </Container>

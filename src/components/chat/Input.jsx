@@ -11,7 +11,7 @@ function Input({ socket }) {
   const sendMessage = () => {
     if (!message) return;
 
-/*    let packet = {
+    /*    let packet = {
       origin: "sender",
       user: username,
       message: message,
@@ -35,31 +35,30 @@ function Input({ socket }) {
   };
 
   return (
-    <div>
-      <div style={{ marginTop: "60px", zIndex: "999" }}>
-        <InputGroup
-          className="mb-3"
-          onKeyDown={handleKeyDown}
-          style={{
-            display: "flex",
-            /* position: "fixed", */
-            bottom: 0,
-            /* left: 0, */
-            right: 0,
-          }}
-        >
-          <Form.Control
-            placeholder="Message"
-            aria-label="Message"
-            aria-describedby="basic-addon1"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <Button onClick={sendMessage} variant="dark">
-            Submit
-          </Button>
-        </InputGroup>
-      </div>
+    <div
+      style={{
+        marginTop: "90px",
+        zIndex: "999",
+        position: "fixed",
+        display: "flex",
+        width: "75%",
+        bottom: 0,
+        /* left: 0, */
+        /* right: 0, */
+      }}
+    >
+      <InputGroup className="mb-3" onKeyDown={handleKeyDown}>
+        <Form.Control
+          placeholder="Message"
+          aria-label="Message"
+          aria-describedby="basic-addon1"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <Button onClick={sendMessage} variant="dark">
+          Submit
+        </Button>
+      </InputGroup>
     </div>
   );
 }
