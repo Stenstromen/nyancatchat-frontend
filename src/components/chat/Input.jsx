@@ -1,24 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import { useDefaultProvider } from "../../contexts/default";
 
-function Input({ socket }) {
-  const { username } = useDefaultProvider();
+function Input({ socket, userLeaves, userLeavesPop }) {
+  const { username, isMobile } = useDefaultProvider();
   const [message, setMessage] = useState("");
+  
 
   const sendMessage = () => {
     if (!message) return;
-
-    /*    let packet = {
-      origin: "sender",
-      user: username,
-      message: message,
-      room: "sampleroom",
-    }; */
-
-    //socket.emit("chat message", packet);
     socket.emit("chat message", {
       origin: "sender",
       user: username,
@@ -34,19 +27,24 @@ function Input({ socket }) {
     }
   };
 
+
   return (
     <div
       style={{
-        marginTop: "90px",
         zIndex: "999",
         position: "fixed",
         display: "flex",
-        width: "75%",
+        width: isMobile ? "100%" : "75%",
+        flexDirection: "column",
         bottom: 0,
-        /* left: 0, */
-        /* right: 0, */
       }}
     >
+      <Alert
+        show={userLeavesPop}
+        variant="info"
+      >
+        <p>{userLeaves}</p>
+      </Alert>
       <InputGroup className="mb-3" onKeyDown={handleKeyDown}>
         <Form.Control
           placeholder="Message"

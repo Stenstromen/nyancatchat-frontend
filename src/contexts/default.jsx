@@ -6,13 +6,14 @@ export const DefaultContext = createContext();
 // Export provider
 export function DefaultProvider({ children }) {
   const [darkmode, setDarkmode] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
+  const [sideBar, setSideBar] = useState(false)
   const [username, setUsername] = useState("");
 
 
   return (
     <DefaultContext.Provider
-      value={{ darkmode, setDarkmode, isMobile, setIsMobile, username, setUsername}}
+      value={{ darkmode, setDarkmode, isMobile, setIsMobile, username, setUsername, sideBar, setSideBar}}
     >
       {children}
     </DefaultContext.Provider>
