@@ -6,7 +6,7 @@ export const DefaultContext = createContext();
 // Export provider
 export function DefaultProvider({ children }) {
   const [darkmode, setDarkmode] = useState(true);
-  const [isMobile, setIsMobile] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const [sideBar, setSideBar] = useState(false)
   const [username, setUsername] = useState("");
 

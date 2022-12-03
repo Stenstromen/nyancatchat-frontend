@@ -10,8 +10,12 @@ import "./App.css";
 
 const socket = socketIO.connect("http://localhost:8080");
 function App() {
-  const { sideBar, setSideBar } = useDefaultProvider();
+  const { sideBar, setSideBar, isMobile, setIsMobile } = useDefaultProvider();
   const [sticky, setSticky] = useState(false);
+
+  function handleResize() {
+    window.innerWidth < 425 ? setIsMobile(true) : setIsMobile(false);
+  }
 
   function stickNavbar() {
     if (window !== undefined) {
@@ -21,9 +25,15 @@ function App() {
   }
 
   useEffect(() => {
+    window.addEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     window.addEventListener("scroll", stickNavbar);
     return () => window.removeEventListener("scroll", stickNavbar);
   }, []);
+
+  handleResize();
   return (
     <div>
       <Navbar
@@ -32,7 +42,9 @@ function App() {
         fixed={sticky ? "top" : ""}
         style={{ marginBottom: "5px" }}
       >
-        <Button onClick={() => setSideBar(!sideBar)}>lol</Button>
+        {isMobile ? (
+          <Button onClick={() => setSideBar(!sideBar)}>lol</Button>
+        ) : null}
         <Container>
           <Navbar.Brand>Chat.NyanCat.se</Navbar.Brand>
         </Container>

@@ -18,12 +18,22 @@ import axios from "axios";
 import { useDefaultProvider } from "../contexts/default";
 
 function Chat({ socket }) {
-  const { username, isMobile, sideBar } = useDefaultProvider();
+  const { username, isMobile, sideBar, setSideBar } = useDefaultProvider();
   const [recvMessages, setRecvMessages] = useState([]);
   const [roomUsers, setRoomUsers] = useState([]);
   const [userLeaves, setUserLeaves] = useState("");
   const [userLeavesPop, setUserLeavesPop] = useState(false);
   const colwidth = 3;
+
+  useEffect(() => {
+    if (isMobile) {
+      console.log("sidebar false");
+      setSideBar(false);
+    } else {
+      console.log("sidebar true");
+      setSideBar(true);
+    }
+  }, [socket]);
 
   useEffect(() => {
     socket.on("chat message", (msg) => {
@@ -66,11 +76,6 @@ function Chat({ socket }) {
     });
   }, [socket]);
 
-  /* useEffect(() => {
-    console.log("running the thing")
-    return setUserLeavesPop(true);
-  }, [userLeaves, userLeavesPop]); */
-
   useEffect(() => {
     axios.get("http://localhost:8080/getusers/sampleroom").then((response) => {
       return setRoomUsers(response.data);
@@ -89,7 +94,7 @@ function Chat({ socket }) {
               xl={colwidth}
               xs={colwidth}
               xxl={colwidth}
-              style={{ border: "1px solid black" }}
+              style={{ border: "1px solid black", backgroundColor: "#0e4d8f" }}
             >
               <Sidebar socket={socket} roomUsers={roomUsers} />
             </Col>

@@ -6,7 +6,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useDefaultProvider } from "../../contexts/default";
 
 function Input({ socket, userLeaves, userLeavesPop }) {
-  const { username, isMobile } = useDefaultProvider();
+  const { username, isMobile, sideBar } = useDefaultProvider();
   const [message, setMessage] = useState("");
   
 
