@@ -33,6 +33,8 @@ function Chat({ socket }) {
 
   useEffect(() => {
     socket.on("chat message", (msg) => {
+      console.log(msg);
+      setTypingStatus("");
       return setRecvMessages((recvMessages) => [...recvMessages, msg]);
     });
   }, [socket]);
@@ -79,10 +81,15 @@ function Chat({ socket }) {
   }, [socket]);
 
   useEffect(() => {
-    socket.on("typingResponse", (msg) => {
-      console.log("resv");
-      console.log(msg);
-      setTypingStatus(msg);
+    socket.on("typing Response", (msg) => {
+      setTypingStatus(msg.user);
+      if (msg.user) {
+        setTypingStatus(msg.user);
+      } else {
+        setTimeout(() => {
+          setTypingStatus("");
+        }, 2000);
+      }
     });
   }, [socket]);
 
@@ -98,7 +105,7 @@ function Chat({ socket }) {
               xl={colwidth}
               xs={colwidth}
               xxl={colwidth}
-              style={{ backgroundColor: "#0e4d8f" }}
+              style={{ backgroundColor: "#0e4d8f", zIndex: "999" }}
             >
               <Sidebar socket={socket} roomUsers={roomUsers} />
             </Col>
@@ -111,7 +118,7 @@ function Chat({ socket }) {
               xl={colwidth}
               xs={colwidth}
               xxl={colwidth}
-              style={{ backgroundColor: "#0e4d8f" }}
+              style={{ backgroundColor: "#0e4d8f", zIndex: "999"  }}
             >
               <Sidebar socket={socket} roomUsers={roomUsers} />
             </Col>

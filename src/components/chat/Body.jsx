@@ -20,12 +20,11 @@ function Body({ socket, recvMessages, userLeaves, typingStatus }) {
   useEffect(() => {
     //console.log(recvMessages);
     return window.scrollTo(0, document.body.scrollHeight);
-  }, [recvMessages]);
+  }, [recvMessages, typingStatus]);
 
   return (
-    <div style={{backgroundColor: "white", borderRadius: "5px"}}>
-      <div style={{backgroundColor: "white"}}>
-      <p>{typingStatus}</p>
+    <div style={{ backgroundColor: "white", borderRadius: "5px" }}>
+      <div style={{ backgroundColor: "white" }}>
         {recvMessages.map((item) => {
           return (
             <>
@@ -78,7 +77,29 @@ function Body({ socket, recvMessages, userLeaves, typingStatus }) {
             </>
           );
         })}
-        
+        {typingStatus ? (
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "left",
+              marginTop: isMobile ? "10px" : "2px",
+              marginBottom: isMobile ? "10px" : "2px",
+            }}
+          >
+            <ListGroup
+              style={{
+                width: "200px",
+                marginRight: "10px",
+                overflowWrap: "break-word",
+              }}
+            >
+              <ListGroup.Item as="li">
+                {typingStatus} is typing...
+              </ListGroup.Item>
+            </ListGroup>
+          </div>
+        ) : null}
       </div>
     </div>
   );

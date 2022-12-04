@@ -15,7 +15,7 @@ function Input({ socket, userLeaves, userLeavesPop }) {
       origin: "sender",
       user: username,
       message: message,
-      room: "sampleroom",
+      room: roomName,
     });
     setMessage("");
   };

@@ -9,7 +9,7 @@ import { useDefaultProvider } from "../../contexts/default";
 
 function Sidebar({ socket, roomUsers }) {
   const navigate = useNavigate();
-  const { username, sideBar, isMobile } = useDefaultProvider();
+  const { username, roomName, sideBar, isMobile } = useDefaultProvider();
   const room = "sampleroom";
 
   const handleLeave = () => {
@@ -25,8 +25,9 @@ function Sidebar({ socket, roomUsers }) {
         display: "border-box",
         position: "fixed",
         height: "100%",
-        width: "24%",
+        width: isMobile ? "50%" : "25%",
         backgroundColor: "#0e4d8f",
+        zIndex: "999"
       }}
     >
       <Stack>
@@ -58,7 +59,7 @@ function Sidebar({ socket, roomUsers }) {
         <Table striped bordered hover size="sm" variant="dark" style={{marginTop: "20px"}}>
           <thead>
             <tr>
-              <th>Users</th>
+              <th>{roomName} Users</th>
             </tr>
           </thead>
           <tbody>
