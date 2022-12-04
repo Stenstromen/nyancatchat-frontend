@@ -1,24 +1,18 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-import Card from "react-bootstrap/Card";
-import Alert from "react-bootstrap/Alert";
+import { useEffect } from "react";
+import { SyncLoader } from "react-spinners";
 import ListGroup from "react-bootstrap/ListGroup";
 
 import { useDefaultProvider } from "../../contexts/default";
 
-function Body({ socket, recvMessages, userLeaves, typingStatus }) {
+function Body({ recvMessages, userLeaves, typingStatus }) {
   const { isMobile } = useDefaultProvider();
-  const [userLeavesPop, setUserLeavesPop] = useState(false);
+/*   const [userLeavesPop, setUserLeavesPop] = useState(false);
 
   useEffect(() => {
     setUserLeavesPop(true);
-  }, [userLeaves]);
+  }, [userLeaves]); */
 
   useEffect(() => {
-    //console.log(recvMessages);
     return window.scrollTo(0, document.body.scrollHeight);
   }, [recvMessages, typingStatus]);
 
@@ -94,8 +88,10 @@ function Body({ socket, recvMessages, userLeaves, typingStatus }) {
                 overflowWrap: "break-word",
               }}
             >
-              <ListGroup.Item as="li">
-                {typingStatus} is typing...
+              <ListGroup.Item>
+                <p style={{ display: "flex", flexDirection: "row" }}>
+                  {typingStatus} is typing<SyncLoader size={4} />
+                </p>
               </ListGroup.Item>
             </ListGroup>
           </div>

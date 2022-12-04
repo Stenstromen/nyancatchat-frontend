@@ -1,32 +1,69 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+//import socketIO from "socket.io-client";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import { useDefaultProvider } from "../contexts/default";
 
-function JoinChat() {
+function JoinChat({ socket }) {
+  //const socket = socketIO.connect("http://localhost:8080");
+  const { room } = useParams();
+  const navigate = useNavigate();
   const {
     username,
     setUsername,
     roomName,
     setRoomName,
     isMobile,
-    sideBar,
-    setSideBar,
   } = useDefaultProvider();
 
   const handleLogin = () => {
-    const packet = {
-      user: username,
-      room: roomName,
-    };
-    socket.emit("join_room", packet);
+    socket.emit("join_room", { user: username, room: roomName });
     navigate("/chat");
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
+
+  useEffect(() => {
+    setRoomName(room);
+  }, [socket, roomName, room, setRoomName])
+
   return (
     <div>
-      <h1>lol</h1>
-      <h1>lol</h1>
-      <h1>lol</h1>
-      <h1>lol</h1>
+      <Modal show={true} style={{marginTop: isMobile ? "90px" : "100px"}}>
+        <Modal.Header>
+          <Modal.Title>Plz Join</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          You have been asked to join{" "}
+          <strong>
+            <em>{room}</em>
+          </strong>
+          , please chose a username below
+        </Modal.Body>
+        <InputGroup className="mb-3" onKeyDown={handleKeyDown}>
+          <InputGroup.Text id="basic-addon1">Username</InputGroup.Text>
+          <Form.Control
+            placeholder="Username"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </InputGroup>
+        <Modal.Footer>
+          <Button onClick={handleLogin} variant="primary">
+            Enter Chat
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <h1>😸😸😸😸</h1>
     </div>
   );
 }

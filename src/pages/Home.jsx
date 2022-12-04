@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -9,7 +7,8 @@ import { useDefaultProvider } from "../contexts/default";
 
 function Home({ socket }) {
   const navigate = useNavigate();
-  const { username, setUsername, roomName, setRoomName, isMobile } = useDefaultProvider();
+  const { username, setUsername, roomName, setRoomName, isMobile } =
+    useDefaultProvider();
 
   const handleLogin = () => {
     const packet = {
@@ -38,14 +37,18 @@ function Home({ socket }) {
         <img
           alt="nyanicon"
           src="/nyanicon.png"
-          width={isMobile ? "80%" : "40%"}
+          width={isMobile ? "80%" : "20%"}
           style={{ borderRadius: "50%" }}
         />
         <br />
-        <Form.Label style={{ color: "white"}} htmlFor="basic-url">
+        <Form.Label style={{ color: "white" }} htmlFor="basic-url">
           Display Name
         </Form.Label>
-        <InputGroup style={{width: isMobile ? "" : "50%"}} className="mb-3" onKeyDown={handleKeyDown}>
+        <InputGroup
+          style={{ width: isMobile ? "" : "30%" }}
+          className="mb-3"
+          onKeyDown={handleKeyDown}
+        >
           <Form.Control
             placeholder="Display Name"
             aria-label="Display Name"
@@ -63,7 +66,7 @@ function Home({ socket }) {
             type="radio"
             id="default-radio"
             label="Kitty Room"
-            checked={roomName === "kittyroom"} 
+            checked={roomName === "kittyroom"}
             value="kittyroom"
             onClick={() => setRoomName("kittyroom")}
           />
@@ -72,7 +75,7 @@ function Home({ socket }) {
             type="radio"
             id="default-radio"
             label="Nyan Room"
-            checked={roomName === "nyanroom"} 
+            checked={roomName === "nyanroom"}
             value="nyanroom"
             onClick={() => setRoomName("nyanroom")}
           />
@@ -81,7 +84,7 @@ function Home({ socket }) {
             type="radio"
             id="default-radio"
             label="Doge Room"
-            checked={roomName === "dogeroom"} 
+            checked={roomName === "dogeroom"}
             value="dogeroom"
             onClick={() => setRoomName("dogeroom")}
           />
@@ -90,13 +93,18 @@ function Home({ socket }) {
             type="radio"
             id="default-radio"
             label="Pusheen Room"
-            checked={roomName === "pusheenroom"} 
+            checked={roomName === "pusheenroom"}
             value="pusheenroom"
             onClick={() => setRoomName("pusheenroom")}
           />
         </Form>
         <br />
-        <Button onClick={handleLogin} variant="dark">
+        <Button
+          style={{ marginTop: "40px", marginBottom: "40px" }}
+          onClick={handleLogin}
+          variant="dark"
+          size="lg"
+        >
           Join 😺
         </Button>
       </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -6,7 +6,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useDefaultProvider } from "../../contexts/default";
 
 function Input({ socket, userLeaves, userLeavesPop }) {
-  const { username, roomName, isMobile, sideBar } = useDefaultProvider();
+  const { username, roomName, isMobile } = useDefaultProvider();
   const [message, setMessage] = useState("");
 
   const sendMessage = () => {

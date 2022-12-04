@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Container, Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar"
+import Button from "react-bootstrap/Button";
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import socketIO from "socket.io-client";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
+import Join from "./pages/JoinChat";
 import { useDefaultProvider } from "./contexts/default";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -68,6 +71,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home socket={socket} />} />
         <Route path="/chat" element={<Chat socket={socket} />} />
+        <Route path="/join/:room" element={<Join socket={socket} />} />
       </Routes>
     </div>
   );

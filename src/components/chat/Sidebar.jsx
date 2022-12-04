@@ -1,21 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
-import ListGroup from "react-bootstrap/ListGroup";
 import Table from "react-bootstrap/Table";
-import axios from "axios";
 
 import { useDefaultProvider } from "../../contexts/default";
 
 function Sidebar({ socket, roomUsers }) {
   const navigate = useNavigate();
-  const { username, roomName, sideBar, isMobile } = useDefaultProvider();
-  const room = "sampleroom";
+  const { username, roomName, isMobile } = useDefaultProvider();
 
   const handleLeave = () => {
     socket.emit("leave_room", {
       user: username,
-      room: room,
+      room: roomName,
     });
     navigate("/");
   };
@@ -37,6 +34,7 @@ function Sidebar({ socket, roomUsers }) {
         >
           <img
             style={{ width: "90%", borderRadius: "50%" }}
+            alt="nyanicon"
             src="/nyanicon.png"
           />
 
@@ -45,7 +43,7 @@ function Sidebar({ socket, roomUsers }) {
             size={isMobile ? "sm" : "md"}
             as="input"
             type="reset"
-            value="Leave (Clear Data)"
+            value="😿 Leave (Clear Data) 😾"
             onClick={handleLeave}
           />
           <Button
@@ -53,7 +51,14 @@ function Sidebar({ socket, roomUsers }) {
             size={isMobile ? "sm" : "md"}
             as="input"
             type="reset"
-            value="Share"
+            value="😻 Share Link 📲"
+          />
+          <Button
+            variant="primary"
+            size={isMobile ? "sm" : "md"}
+            as="input"
+            type="reset"
+            value="☝️ Copy 2 Clipboard 😸"
           />
         </div>
         <Table striped bordered hover size="sm" variant="dark" style={{marginTop: "20px"}}>

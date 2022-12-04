@@ -1,14 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import socketIO from "socket.io-client";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Sidebar from "../components/chat/Sidebar";
@@ -18,7 +9,7 @@ import axios from "axios";
 import { useDefaultProvider } from "../contexts/default";
 
 function Chat({ socket }) {
-  const { username, roomName, isMobile, sideBar, setSideBar } =
+  const { roomName, isMobile, sideBar, setSideBar } =
     useDefaultProvider();
   const [recvMessages, setRecvMessages] = useState([]);
   const [roomUsers, setRoomUsers] = useState([]);
@@ -29,11 +20,10 @@ function Chat({ socket }) {
 
   useEffect(() => {
     if (isMobile) return setSideBar(false);
-  }, [socket]);
+  }, [socket, isMobile, setSideBar]);
 
   useEffect(() => {
     socket.on("chat message", (msg) => {
-      console.log(msg);
       setTypingStatus("");
       return setRecvMessages((recvMessages) => [...recvMessages, msg]);
     });
@@ -41,20 +31,15 @@ function Chat({ socket }) {
 
   useEffect(() => {
     socket.on("user join", (msg) => {
-      console.log("blah");
-      console.log(msg);
-      console.log(roomUsers);
       return setRoomUsers(msg);
     });
   }, [socket]);
 
   useEffect(() => {
     socket.on("user joines", (msg) => {
-      console.log("running the thing");
       setUserLeavesPop(true);
       setUserLeaves(msg.message);
       setTimeout(() => {
-        console.log("done with the thing");
         setUserLeavesPop(false);
         setUserLeaves("");
       }, 3000);
@@ -63,11 +48,9 @@ function Chat({ socket }) {
 
   useEffect(() => {
     socket.on("user leaves", (msg) => {
-      console.log("running the thing");
       setUserLeavesPop(true);
       setUserLeaves(msg.message);
       setTimeout(() => {
-        console.log("done with the thing");
         setUserLeavesPop(false);
         setUserLeaves("");
       }, 3000);
@@ -75,10 +58,16 @@ function Chat({ socket }) {
   }, [socket]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/getusers/${roomName}`).then((response) => {
-      return setRoomUsers(response.data);
-    });
-  }, [socket]);
+    axios
+      .get(`${process.env.REACT_APP_BACKEND}/getusers/${roomName}`, {
+        headers: {
+          authorization: process.env.REACT_APP_AUTHORIZATION,
+        },
+      })
+      .then((response) => {
+        return setRoomUsers(response.data);
+      });
+  }, [socket, roomName]);
 
   useEffect(() => {
     socket.on("typing Response", (msg) => {
@@ -118,14 +107,14 @@ function Chat({ socket }) {
               xl={colwidth}
               xs={colwidth}
               xxl={colwidth}
-              style={{ backgroundColor: "#0e4d8f", zIndex: "999"  }}
+              style={{ backgroundColor: "#0e4d8f", zIndex: "999" }}
             >
               <Sidebar socket={socket} roomUsers={roomUsers} />
             </Col>
           )}
           <Col>
             <Row>
-              <div style={{ marginBottom: "12%" }}>
+              <div style={{ marginBottom: "8%" }}>
                 <Body
                   recvMessages={recvMessages}
                   userLeaves={userLeaves}
