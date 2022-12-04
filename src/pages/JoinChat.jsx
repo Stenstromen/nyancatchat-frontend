@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-//import socketIO from "socket.io-client";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -8,7 +7,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useDefaultProvider } from "../contexts/default";
 
 function JoinChat({ socket }) {
-  //const socket = socketIO.connect("http://localhost:8080");
   const { room } = useParams();
   const navigate = useNavigate();
   const {

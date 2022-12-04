@@ -12,7 +12,7 @@ import { useDefaultProvider } from "./contexts/default";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-const socket = socketIO.connect("http://localhost:8080");
+const socket = socketIO.connect(process.env.REACT_APP_BACKEND);
 function App() {
   const { sideBar, setSideBar, isMobile, setIsMobile } = useDefaultProvider();
   const [sticky, setSticky] = useState(false);
