@@ -9,11 +9,12 @@ export function DefaultProvider({ children }) {
   const [isMobile, setIsMobile] = useState(false);
   const [sideBar, setSideBar] = useState(false)
   const [username, setUsername] = useState("");
+  const [roomName, setRoomName] = useState("")
 
 
   return (
     <DefaultContext.Provider
-      value={{ darkmode, setDarkmode, isMobile, setIsMobile, username, setUsername, sideBar, setSideBar}}
+      value={{ darkmode, setDarkmode, isMobile, setIsMobile, username, setUsername, sideBar, setSideBar, roomName, setRoomName}}
     >
       {children}
     </DefaultContext.Provider>

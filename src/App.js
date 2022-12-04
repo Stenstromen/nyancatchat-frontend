@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Container, Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
+import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import socketIO from "socket.io-client";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
@@ -42,10 +43,25 @@ function App() {
         fixed={sticky ? "top" : ""}
         style={{ marginBottom: "5px" }}
       >
-        {isMobile ? (
-          <Button onClick={() => setSideBar(!sideBar)}>lol</Button>
-        ) : null}
+        
         <Container>
+        {isMobile ? (
+          <Button onClick={() => setSideBar(!sideBar)}>
+            {sideBar ? (
+              <AiOutlineMenuFold size={30} />
+            ) : (
+              <AiOutlineMenuUnfold size={30} />
+            )}
+          </Button>
+        ) : null}
+            <img
+              alt="nyanicon"
+              src="/nyanicon.png"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+              style={{borderRadius: "50%"}}
+            />
           <Navbar.Brand>Chat.NyanCat.se</Navbar.Brand>
         </Container>
       </Navbar>

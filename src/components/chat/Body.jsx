@@ -9,7 +9,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 import { useDefaultProvider } from "../../contexts/default";
 
-function Body({ socket, recvMessages, userLeaves }) {
+function Body({ socket, recvMessages, userLeaves, typingStatus }) {
   const { isMobile } = useDefaultProvider();
   const [userLeavesPop, setUserLeavesPop] = useState(false);
 
@@ -23,8 +23,9 @@ function Body({ socket, recvMessages, userLeaves }) {
   }, [recvMessages]);
 
   return (
-    <div>
-      <div>
+    <div style={{backgroundColor: "white", borderRadius: "5px"}}>
+      <div style={{backgroundColor: "white"}}>
+      <p>{typingStatus}</p>
         {recvMessages.map((item) => {
           return (
             <>
@@ -77,6 +78,7 @@ function Body({ socket, recvMessages, userLeaves }) {
             </>
           );
         })}
+        
       </div>
     </div>
   );

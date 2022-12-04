@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
+import Table from "react-bootstrap/Table";
 import axios from "axios";
 
 import { useDefaultProvider } from "../../contexts/default";
@@ -29,7 +30,10 @@ function Sidebar({ socket, roomUsers }) {
       }}
     >
       <Stack>
-        <div className="d-grid gap-2" style={{ marginTop: "60px" }}>
+        <div
+          className="d-grid gap-2"
+          style={{ marginTop: "60px", backgroundColor: "#0e4d8f" }}
+        >
           <img
             style={{ width: "90%", borderRadius: "50%" }}
             src="/nyanicon.png"
@@ -40,7 +44,7 @@ function Sidebar({ socket, roomUsers }) {
             size={isMobile ? "sm" : "md"}
             as="input"
             type="reset"
-            value="Leave"
+            value="Leave (Clear Data)"
             onClick={handleLeave}
           />
           <Button
@@ -51,16 +55,24 @@ function Sidebar({ socket, roomUsers }) {
             value="Share"
           />
         </div>
-        <h1>Users</h1>
-        <ListGroup>
-          {roomUsers.map((item) => {
-            return (
-              <>
-                <ListGroup.Item>{item.user}</ListGroup.Item>
-              </>
-            );
-          })}
-        </ListGroup>
+        <Table striped bordered hover size="sm" variant="dark" style={{marginTop: "20px"}}>
+          <thead>
+            <tr>
+              <th>Users</th>
+            </tr>
+          </thead>
+          <tbody>
+            {roomUsers.map((item) => {
+              return (
+                <>
+                  <tr>
+                    <td>{item.user}</td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </Table>
       </Stack>
     </div>
   );

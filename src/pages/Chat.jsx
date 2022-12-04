@@ -18,21 +18,17 @@ import axios from "axios";
 import { useDefaultProvider } from "../contexts/default";
 
 function Chat({ socket }) {
-  const { username, isMobile, sideBar, setSideBar } = useDefaultProvider();
+  const { username, roomName, isMobile, sideBar, setSideBar } =
+    useDefaultProvider();
   const [recvMessages, setRecvMessages] = useState([]);
   const [roomUsers, setRoomUsers] = useState([]);
   const [userLeaves, setUserLeaves] = useState("");
   const [userLeavesPop, setUserLeavesPop] = useState(false);
+  const [typingStatus, setTypingStatus] = useState("");
   const colwidth = 3;
 
   useEffect(() => {
-    if (isMobile) {
-      console.log("sidebar false");
-      setSideBar(false);
-    } else {
-      console.log("sidebar true");
-      setSideBar(true);
-    }
+    if (isMobile) return setSideBar(false);
   }, [socket]);
 
   useEffect(() => {
@@ -77,8 +73,16 @@ function Chat({ socket }) {
   }, [socket]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/getusers/sampleroom").then((response) => {
+    axios.get(`http://localhost:8080/getusers/${roomName}`).then((response) => {
       return setRoomUsers(response.data);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on("typingResponse", (msg) => {
+      console.log("resv");
+      console.log(msg);
+      setTypingStatus(msg);
     });
   }, [socket]);
 
@@ -94,7 +98,7 @@ function Chat({ socket }) {
               xl={colwidth}
               xs={colwidth}
               xxl={colwidth}
-              style={{ border: "1px solid black", backgroundColor: "#0e4d8f" }}
+              style={{ backgroundColor: "#0e4d8f" }}
             >
               <Sidebar socket={socket} roomUsers={roomUsers} />
             </Col>
@@ -107,7 +111,7 @@ function Chat({ socket }) {
               xl={colwidth}
               xs={colwidth}
               xxl={colwidth}
-              style={{ border: "1px solid black" }}
+              style={{ backgroundColor: "#0e4d8f" }}
             >
               <Sidebar socket={socket} roomUsers={roomUsers} />
             </Col>
@@ -115,7 +119,11 @@ function Chat({ socket }) {
           <Col>
             <Row>
               <div style={{ marginBottom: "12%" }}>
-                <Body recvMessages={recvMessages} userLeaves={userLeaves} />
+                <Body
+                  recvMessages={recvMessages}
+                  userLeaves={userLeaves}
+                  typingStatus={typingStatus}
+                />
               </div>
             </Row>
             <Row>

@@ -6,9 +6,8 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useDefaultProvider } from "../../contexts/default";
 
 function Input({ socket, userLeaves, userLeavesPop }) {
-  const { username, isMobile, sideBar } = useDefaultProvider();
+  const { username, roomName, isMobile, sideBar } = useDefaultProvider();
   const [message, setMessage] = useState("");
-  
 
   const sendMessage = () => {
     if (!message) return;
@@ -27,6 +26,12 @@ function Input({ socket, userLeaves, userLeavesPop }) {
     }
   };
 
+  const handleTyping = () => {
+    socket.emit("typing", {
+      room: roomName,
+      user: username
+    });
+  };
 
   return (
     <div
@@ -39,10 +44,7 @@ function Input({ socket, userLeaves, userLeavesPop }) {
         bottom: 0,
       }}
     >
-      <Alert
-        show={userLeavesPop}
-        variant="info"
-      >
+      <Alert show={userLeavesPop} variant="info">
         <p>{userLeaves}</p>
       </Alert>
       <InputGroup className="mb-3" onKeyDown={handleKeyDown}>
@@ -52,6 +54,7 @@ function Input({ socket, userLeaves, userLeavesPop }) {
           aria-describedby="basic-addon1"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleTyping}
         />
         <Button onClick={sendMessage} variant="dark">
           Submit
