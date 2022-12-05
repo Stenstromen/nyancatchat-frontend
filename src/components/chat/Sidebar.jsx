@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
@@ -6,8 +7,15 @@ import Table from "react-bootstrap/Table";
 import { useDefaultProvider } from "../../contexts/default";
 
 function Sidebar({ socket, roomUsers }) {
+  const [shareClicked, setShareClicked] = useState(false);
+  const [copyClicked, setCopyClicked] = useState(false);
+
   const navigate = useNavigate();
   const { username, roomName, isMobile } = useDefaultProvider();
+
+  const simulateNetworkRequest = () => {
+    return new Promise((resolve) => setTimeout(resolve, 2000));
+  };
 
   const handleLeave = () => {
     socket.emit("leave_room", {
@@ -16,6 +24,41 @@ function Sidebar({ socket, roomUsers }) {
     });
     navigate("/");
   };
+
+  const shareLink = async () => {
+    setShareClicked(true);
+    try {
+      await navigator.share({
+        title: "Plz Join my NyanCatChatRoom 😸",
+        text: `Plz Join my NyanCatChat-${roomName} 😸`,
+        url: window.location.origin + "/join/" + roomName,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const copyLink = () => {
+    setCopyClicked(true);
+    navigator.clipboard.writeText(window.location.origin + "/join/" + roomName);
+  };
+
+  useEffect(() => {
+    if (shareClicked) {
+      simulateNetworkRequest().then(() => {
+        setShareClicked(false);
+      });
+    }
+  }, [shareClicked]);
+
+  useEffect(() => {
+    if (copyClicked) {
+      simulateNetworkRequest().then(() => {
+        setCopyClicked(false);
+      });
+    }
+  }, [copyClicked]);
+
   return (
     <div
       style={{
@@ -24,7 +67,7 @@ function Sidebar({ socket, roomUsers }) {
         height: "100%",
         width: isMobile ? "50%" : "25%",
         backgroundColor: "#0e4d8f",
-        zIndex: "999"
+        zIndex: "999",
       }}
     >
       <Stack>
@@ -51,17 +94,28 @@ function Sidebar({ socket, roomUsers }) {
             size={isMobile ? "sm" : "md"}
             as="input"
             type="reset"
-            value="😻 Share Link 📲"
+            value={shareClicked ? "✅ Share Link ✅" : "😻 Share Link 📲"}
+            onClick={shareLink}
           />
           <Button
             variant="primary"
             size={isMobile ? "sm" : "md"}
             as="input"
             type="reset"
-            value="☝️ Copy 2 Clipboard 😸"
+            value={
+              copyClicked ? "✅ Copy 2 Clipboard ✅" : "☝️ Copy 2 Clipboard 😸"
+            }
+            onClick={copyLink}
           />
         </div>
-        <Table striped bordered hover size="sm" variant="dark" style={{marginTop: "20px"}}>
+        <Table
+          striped
+          bordered
+          hover
+          size="sm"
+          variant="dark"
+          style={{ marginTop: "20px" }}
+        >
           <thead>
             <tr>
               <th>{roomName} Users</th>
