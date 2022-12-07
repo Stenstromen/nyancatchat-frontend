@@ -1,0 +1,17 @@
+export const users = [
+  "Pusheen",
+  "Doland",
+  "Gooby",
+  "NyanCat",
+  "Doge",
+  "Stormy",
+  "Pip",
+  "Sunflower",
+  "Biscuit",
+  "Vilde",
+  "Pussel",
+  "Malin",
+  "Laban",
+  "Prinsessan",
+  "Musse",
+];
