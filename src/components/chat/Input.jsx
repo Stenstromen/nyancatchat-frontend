@@ -29,7 +29,7 @@ function Input({ socket, userLeaves, userLeavesPop }) {
   const handleTyping = () => {
     socket.emit("typing", {
       room: roomName,
-      user: username
+      user: username,
     });
   };
 
@@ -49,6 +49,7 @@ function Input({ socket, userLeaves, userLeavesPop }) {
       </Alert>
       <InputGroup className="mb-3" onKeyDown={handleKeyDown}>
         <Form.Control
+          maxLength={124}
           placeholder="Message"
           aria-label="Message"
           aria-describedby="basic-addon1"
