@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
-
 import { useDefaultProvider } from "../contexts/default";
 
 function Home({ socket }) {
   const navigate = useNavigate();
   const { username, setUsername, roomName, setRoomName, isMobile } =
     useDefaultProvider();
+    
 
   const handleLogin = () => {
     const packet = {
