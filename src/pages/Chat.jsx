@@ -9,7 +9,7 @@ import axios from "axios";
 import { useDefaultProvider } from "../contexts/default";
 
 function Chat({ socket }) {
-  const { roomName, isMobile, sideBar, setSideBar } =
+  const { username, roomName, isMobile, sideBar, setSideBar } =
     useDefaultProvider();
   const [recvMessages, setRecvMessages] = useState([]);
   const [roomUsers, setRoomUsers] = useState([]);
@@ -18,13 +18,48 @@ function Chat({ socket }) {
   const [typingStatus, setTypingStatus] = useState("");
   const colwidth = 3;
 
+  const notifyUser = (user, msg) => {
+    if (!("Notification" in window)) return;
+    if (Notification.permission === "granted") {
+      const notification = new Notification("NyanCatChat Message", {
+        icon: "https://chat.nyancat.se/nyanicon.png",
+        body: user + " - " + msg,
+      });
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          const notification = new Notification("NyanCatChat Message", {
+            icon: "https://chat.nyancat.se/nyanicon.png",
+            body: user + " - " + msg,
+          });
+        }
+      });
+    }
+  };
+
   useEffect(() => {
     if (isMobile) return setSideBar(false);
   }, [socket, isMobile, setSideBar]);
 
   useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND}/getmessages/${roomName}/${username}`,
+        {
+          headers: {
+            authorization: process.env.REACT_APP_AUTHORIZATION,
+          },
+        }
+      )
+      .then((response) => {
+        setRecvMessages(response.data);
+      });
+  }, [roomName, username]);
+
+  useEffect(() => {
     socket.on("chat message", (msg) => {
       setTypingStatus("");
+      if (msg.origin === "server") notifyUser(msg.user, msg.message);
       return setRecvMessages((recvMessages) => [...recvMessages, msg]);
     });
   }, [socket]);
@@ -39,6 +74,7 @@ function Chat({ socket }) {
     socket.on("user joines", (msg) => {
       setUserLeavesPop(true);
       setUserLeaves(msg.message);
+      notifyUser(msg.room, msg.message);
       setTimeout(() => {
         setUserLeavesPop(false);
         setUserLeaves("");
@@ -50,6 +86,7 @@ function Chat({ socket }) {
     socket.on("user leaves", (msg) => {
       setUserLeavesPop(true);
       setUserLeaves(msg.message);
+      notifyUser(msg.room, msg.message);
       setTimeout(() => {
         setUserLeavesPop(false);
         setUserLeaves("");

@@ -11,7 +11,7 @@ function Sidebar({ socket, roomUsers }) {
   const [copyClicked, setCopyClicked] = useState(false);
 
   const navigate = useNavigate();
-  const { username, roomName, isMobile } = useDefaultProvider();
+  const { username, setUsername, roomName, setRoomName, isMobile } = useDefaultProvider();
 
   const simulateNetworkRequest = () => {
     return new Promise((resolve) => setTimeout(resolve, 2000));
@@ -22,6 +22,8 @@ function Sidebar({ socket, roomUsers }) {
       user: username,
       room: roomName,
     });
+    setUsername(null)
+    setRoomName(null)
     navigate("/");
   };
 

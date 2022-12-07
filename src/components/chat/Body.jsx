@@ -4,13 +4,8 @@ import ListGroup from "react-bootstrap/ListGroup";
 
 import { useDefaultProvider } from "../../contexts/default";
 
-function Body({ recvMessages, userLeaves, typingStatus }) {
+function Body({ recvMessages, typingStatus }) {
   const { isMobile } = useDefaultProvider();
-/*   const [userLeavesPop, setUserLeavesPop] = useState(false);
-
-  useEffect(() => {
-    setUserLeavesPop(true);
-  }, [userLeaves]); */
 
   useEffect(() => {
     return window.scrollTo(0, document.body.scrollHeight);
